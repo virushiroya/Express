@@ -12,11 +12,11 @@ const {
 
 userRoutes.post("/", addNewUser);
 
-// // READ - Get All Users
-// userRoutes.get("/", getAllUsers);
+// READ - Get All Users
+userRoutes.get("/", getAllUsers);
 
-// // READ - Get single Users
-// userRoutes.get("/:id", getSingleUser);
+// READ - Get single Users
+userRoutes.get("/get-user", getSingleUser);
 
 // // REPLACE data - put
 // userRoutes.put("/:id", replaceUsers);
