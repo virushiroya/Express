@@ -1,15 +1,17 @@
-// const users = require('../friend.json');
-const User = require("../model/user.model")
+const User = require("../model/user.model");
+const bcrypt = require("bcrypt");
 
-exports.addNewUser = async (req, res) => {
+exports.registerUser = async (req, res) => {
     try {
         let user = await User.findOne({ email: req.body.email, isDelete: false });
         // console.log(user);
         if (user) {
             return res.status(400).json({ message: 'User already exist.....' });
         }
-        user = await User.create(req.body);
-        res.status(201).json({ user, message: "User Added Success" });
+        let hashPassword = await bcrypt.hash(req.body.password, 10);
+        console.log(hashPassword);        
+        user = await User.create({...req.body, password : hashPassword});
+        res.status(201).json({ user, message: "Register successfully" });
     }
     catch (err) {
         console.log(err);
@@ -17,56 +19,22 @@ exports.addNewUser = async (req, res) => {
     }
 };
 
-exports.getAllUsers = async (req, res) => {
+exports.loginUser = async (req, res) => {
     try {
-        let users = await User.find();
-        res.status(200).json(users);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-};
-
-exports.getSingleUser = async (req, res) => {
-    try {
-        let user = await User.findOne({firstName: req.query.firstName});
-        if(!user){
-            res.status(504).json({ message: 'User not found' });
-        }
-        res.status(200).json(users);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-};
-
-exports.updateUser = async (req, res) => {
-    try {
-        let user = await User.findById(req.query.userId);
+        let user = await User.findOne({ email: req.body.email, isDelete: false });
         // console.log(user);
-        if(!user){
-            res.status(504).json({ message: 'User not found' });
+        if (user) {
+            return res.status(400).json({ message: 'User already exist.....' });
         }
-        // user = await User.updateOne({_id:user._id}, req.body, {new: true});
-        // user = await User.findByIdAndUpdate(user._id, {$set: req.body}, {new: true});
-        user = await User.findOneAndUpdate({_id:user._id}, req.body, {new: true});
-        res.status(200).json({user, message: 'User Update successfully' });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Internal Server Error' });
+        let comparedPassword = await bcrypt.compare(req.body.password, user.password);
+        // console.log(comparedPassword);      
+        if(!comparedPassword)
+            {
+                return res.json({message: "Email or Password does not matched..."})
+            }  
+        res.status(201).json({ user, message: "Login successfully" });
     }
-};
-
-exports.deleteUser = async (req, res) => {
-    try {
-        let user = await User.findOne({_id:req.query.userId, isDelete: false});
-        // console.log(user);
-        if(!user){
-            res.status(404).json({ message: 'User not found' });
-        }
-        user = await User.findByIdAndDelete(user._id);
-        res.status(200).json({user, message: 'User Delete successfully' });
-    } catch (err) {
+    catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Internal Server Error' });
     }
