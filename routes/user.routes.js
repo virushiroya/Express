@@ -12,19 +12,19 @@ const {
 
 userRoutes.post("/", addNewUser);
 
-// READ - Get All Users
-userRoutes.get("/", getAllUsers);
+// // READ - Get All Users
+// userRoutes.get("/", getAllUsers);
 
-// READ - Get single Users
-userRoutes.get("/:id", getSingleUser);
+// // READ - Get single Users
+// userRoutes.get("/:id", getSingleUser);
 
-// REPLACE data - put
-userRoutes.put("/:id", replaceUsers);
+// // REPLACE data - put
+// userRoutes.put("/:id", replaceUsers);
 
-// UPDATE data - patch
-userRoutes.patch("/:id", updateUsers);
+// // UPDATE data - patch
+// userRoutes.patch("/:id", updateUsers);
 
-// DELETE data - delete
-userRoutes.delete("/:id", deleteUsers);
+// // DELETE data - delete
+// userRoutes.delete("/:id", deleteUsers);
 
 module.exports = userRoutes;
