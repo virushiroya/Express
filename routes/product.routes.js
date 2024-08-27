@@ -2,17 +2,15 @@ const express = require('express');
 const productRoutes = express.Router();
 const {
     addNewProduct,
-    // getAllProduct,
-    // replaceProducts,
-    // updateProducts,
-    // deleteProducts
+    getAllProducts,
+    
 } = require("../controller/product.controller")
 
 
 productRoutes.post("/", addNewProduct);
 
 // READ - Get All Users
-// productRoutes.get("/", getAllProduct);
+productRoutes.get("/", getAllProducts);
 
 // // REPLACE data - put
 // productRoutes.put("/:id", replaceProducts);

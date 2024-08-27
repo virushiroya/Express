@@ -4,9 +4,8 @@ const {
     addNewUser,
     getAllUsers,
     getSingleUser,
-    replaceUsers,
-    updateUsers,
-    deleteUsers
+    updateUser,
+    deleteUser
 } = require("../controller/user.controller")
 
 
@@ -18,13 +17,10 @@ userRoutes.get("/", getAllUsers);
 // READ - Get single Users
 userRoutes.get("/get-user", getSingleUser);
 
-// // REPLACE data - put
-// userRoutes.put("/:id", replaceUsers);
+// UPDATE data - patch
+userRoutes.put("/", updateUser);
 
-// // UPDATE data - patch
-// userRoutes.patch("/:id", updateUsers);
-
-// // DELETE data - delete
-// userRoutes.delete("/:id", deleteUsers);
+// DELETE data - delete
+userRoutes.delete("/", deleteUser);
 
 module.exports = userRoutes;

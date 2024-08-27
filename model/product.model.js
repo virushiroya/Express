@@ -1,22 +1,30 @@
 const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
-    firstName : String, //short hand property
-    lastName : {
-        type: String
-    },
-    email : {
-        type : String
-    },
-    age : {
+    id : {
         type : Number
     },
-    hobbies : [{type:String}],
-    address : {
-        line1 : String,
-        line2 : String,
-        pincode : Number
-    }
+    title : {
+        type: String
+    },
+    description : {
+        type : String
+    },
+    discountPercentage : {
+        type : Number
+    },
+    rating : {
+        type : Number
+    },
+    stock : {
+        type : Number
+    },
+    brand : {
+        type: String
+    },
+    category : {
+        type: String
+    },
 });
 
 module.exports = mongoose.model('Product', productSchema);

@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const product = express();
+const mongoose = require('mongoose');
 const productRoutes = require('./routes/product.routes');
 // console.log(users);
 

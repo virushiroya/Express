@@ -3,7 +3,7 @@ const User = require("../model/user.model")
 
 exports.addNewUser = async (req, res) => {
     try {
-        let user = await User.findOne({ email: req.body.email });
+        let user = await User.findOne({ email: req.body.email, isDelete: false });
         // console.log(user);
         if (user) {
             return res.status(400).json({ message: 'User already exist.....' });
@@ -25,7 +25,7 @@ exports.getAllUsers = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
 
 exports.getSingleUser = async (req, res) => {
     try {
@@ -38,25 +38,37 @@ exports.getSingleUser = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
 
-// exports.replaceUsers = (req, res) => {
-//     let id = +req.params.id;
-//     let userIndex = users.findIndex((user) => user.id === id)
-//     users.splice(userIndex, 1, req.body);
-//     res.json({ message: "User Replaced Success" });
-// }
+exports.updateUser = async (req, res) => {
+    try {
+        let user = await User.findById(req.query.userId);
+        // console.log(user);
+        if(!user){
+            res.status(504).json({ message: 'User not found' });
+        }
+        // user = await User.updateOne({_id:user._id}, req.body, {new: true});
+        // user = await User.findByIdAndUpdate(user._id, {$set: req.body}, {new: true});
+        user = await User.findOneAndUpdate({_id:user._id}, req.body, {new: true});
+        res.status(200).json({user, message: 'User Update successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
 
-// exports.updateUsers = (req, res) => {
-//     let id = +req.params.id;
-//     let userIndex = users.findIndex((user) => user.id === id)
-//     users.splice(userIndex, 1, req.body);
-//     res.json({ message: "User Replaced Success" });
-// }
+exports.deleteUser = async (req, res) => {
+    try {
+        let user = await User.findOne({_id:req.query.userId, isDelete: false});
+        // console.log(user);
+        if(!user){
+            res.status(404).json({ message: 'User not found' });
+        }
+        user = await User.findByIdAndDelete(user._id);
+        res.status(200).json({user, message: 'User Delete successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
 
-// exports.deleteUsers = (req, res) => {
-//     let id = +req.params.id;
-//     let userIndex = users.findIndex((item) => item.id === id)
-//     users.splice(userIndex, 1);
-//     res.json({ message: "User delete Success" });
-// }
