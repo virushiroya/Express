@@ -1,56 +1,38 @@
-// ---------------------------------------------------- lec_4
+// ------------------------------------------------- lec_5
 
 const express = require('express');
-const server = express(); //create server
 const morgan = require('morgan');
+const server = express();
+const users = require('./friend.json');
+// console.log(users);
 
-server.use(morgan('dev'));
-
-const loggerFun = (req, res, next) => {
-    console.log(req.ip, req.url, req.method);
-    next();    
-}
-
-server.use(loggerFun);
-
-// in-built middleware
+server.use(morgan("dev"));
 server.use(express.json());
-server.use(express.urlencoded({extended: false}));
-server.use("/hello",express.static('public'))
+server.use(express.urlencoded({ extended: false }));
 
-const Middleware = (req, res, next) => {
+server.get("/", (req, res) => {
+    res.send("Welcome to Express Server")
+});
+
+// CRUD
+// Create User
+server.post("/user", (req, res) => {
     console.log(req.body);
-    next();
-    // console.log(req.query);
-    // if(req.query.age >= "19")
-    // {
-    //     console.log('Success');
-    //     next();        
-    // }
-    // else
-    // {
-    //     res.json({message: "Sorry....."})
-    // }
-    
-}
+    // users.push(req.body);
+    // res.json({ message: "User Added Success" });
+});
 
-// server.use(Middleware); //application
+// READ - Get All Users
+server.get("/user", (req, res) => {
+    res.json(users);
+});
 
-// // POST, GET, PUT, PATCH, DELETE
-Server.get("/", (req,res)=>{
-    res.write('Welcome to Express Server');
-    res.end();
-})
-
-serever.get("/login", Middleware, (req,res)=>{
-    res.write('Welcome to Login Page');
-    res.end();
-})
-
-Server.post("/", (req,res)=>{
-    // res.write('Welcome to Post Method');
-    res.send('<h1>Send Method</h1>');
-})
+// READ - Get single Users
+server.get("/user/:id", (req, res) => {
+    let id = +req.params.id;
+    let iteam = users.find((user) => user.id === id)
+    res.json(iteam);
+});
 
 server.listen(2304, () => {
     console.log('server start at http://localhost:2304');
