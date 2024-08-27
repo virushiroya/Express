@@ -1,7 +1,7 @@
 const User = require("../model/user.model");
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt");
-const fs =  require('fs').promises;
+const fs =  require('fs')
 
 exports.registerUser = async (req, res) => {
     try {
@@ -71,3 +71,24 @@ exports.updateProfile = async (req, res) => {
     }
 }
 
+exports.specialUser = async (req, res) => {
+    try {
+        // let user = {
+        //     firstName: 'abc',
+        //     lastName: 'xyz',
+        //     age: 40,
+        //     email: "abc@xyz.com",
+        //     mobileNo: "1234567890",
+            
+        // }
+        let user = await User.findOne({ firstname: req.query.name, isDelete: false });
+        if(!user){
+            return res.render('notfound.ejs');
+        }
+        res.render('student.hbs',{user});
+        // res.render('user.ejs',{user});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({message: "Server Error"});
+    }
+}

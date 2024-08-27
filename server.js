@@ -1,4 +1,4 @@
-// ----------------------------------------------------- lec_14
+// ----------------------------------------------------- lec_15
 require("dotenv").config();
 const express = require('express');
 const morgan = require('morgan');
@@ -8,6 +8,7 @@ const userRoutes = require('./routes/user.routes.js');
 const Portno = process.env.port_No
 const cors = require('cors');
 const path = require('path');
+const ejs = require('ejs');
 // console.log(users);
 
 // Database Connection
@@ -21,6 +22,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 
 server.use("/public/images", express.static(path.join(__dirname, "public/images")))
+
+server.set("view engine", 'ejs');
 
 server.get("/", (req, res) => {
     res.send("Welcome to Express Server")
