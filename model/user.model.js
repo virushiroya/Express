@@ -9,16 +9,13 @@ const userSchema = mongoose.Schema({
         type : String
     },
     password : {
-        type : Number
+        type : String
     },
     mobileNo : {
         type : String
     },
     profileImage : {
         type : String
-    },
-    age : {
-        type : number
     },
     address : {
         line1 : String,
@@ -36,4 +33,4 @@ const userSchema = mongoose.Schema({
 }
 );
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('users', userSchema);
