@@ -9,7 +9,7 @@ const { verifyToken } = require('../helpers/verifyToken')
 
 
 userRoutes.post("/register", registerUser);
-userRoutes.post("/login", loginUser);
-userRoutes.post("/me", verifyToken, getProfile);
+userRoutes.post("/loginUser", loginUser);
+userRoutes.get("/me", verifyToken, getProfile);
 
 module.exports = userRoutes;

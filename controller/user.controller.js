@@ -24,7 +24,7 @@ exports.loginUser = async (req, res) => {
     try {
         let user = await User.findOne({ email: req.body.email, isDelete: false });
         // console.log(user);
-        if (user) {
+        if (!user) {
             return res.status(400).json({ message: 'User not found.....' });
         }
         let comparedPassword = await bcrypt.compare(req.body.password, user.password);
@@ -32,8 +32,8 @@ exports.loginUser = async (req, res) => {
         if (!comparedPassword) {
             return res.json({ message: "Email or Password does not matched..." })
         }
-        let token = await jwt.sign({ userId: user._id}, process.env.JWT_SECRETKEY);
-        res.status(200).json({message: "Login Successfully....", token});
+        let token = await jwt.sign({ userId: user._id}, process.env.JWT_SECRETEKEY);
+        res.status(200).json({message: 'Login Successfully....', token});
     }
     catch (err) {
         console.log(err);
@@ -47,6 +47,21 @@ exports.getProfile = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+exports.updateProfile = async (req, res) => {
+    try {
+        let user = req.user;
+        user = await User.findIdAndUpdate(
+            user._id,
+            { $set: req.body },
+            { new: true}
+        );
+        res.status(202).json({ user, message: "User profile update..."})
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Server Error" });
     }
 }
 
